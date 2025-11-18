@@ -1,0 +1,325 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'S3 Data Lake Infrastructure - Multi-tier buckets for data pipeline'
+
+Parameters:
+  Environment:
+    Type: String
+    Default: dev
+    AllowedValues:
+      - dev
+      - staging
+      - prod
+    Description: Environment name
+
+  ProjectName:
+    Type: String
+    Default: aws-data-pipeline
+    Description: Project name for tagging
+
+Resources:
+  # ===== RAW ZONE BUCKET =====
+  RawZoneBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub 'data-lake-raw-zone-${AWS::AccountId}'
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      LifecycleConfiguration:
+        Rules:
+          - Id: TransitionToIntelligentTiering
+            Status: Enabled
+            Transitions:
+              - TransitionInDays: 30
+                StorageClass: INTELLIGENT_TIERING
+              - TransitionInDays: 90
+                StorageClass: GLACIER
+              - TransitionInDays: 365
+                StorageClass: DEEP_ARCHIVE
+      Tags:
+        - Key: Name
+          Value: Data Lake Raw Zone
+        - Key: Environment
+          Value: !Ref Environment
+        - Key: Project
+          Value: !Ref ProjectName
+        - Key: DataClassification
+          Value: Raw
+        - Key: ManagedBy
+          Value: CloudFormation
+
+  # ===== PROCESSED ZONE BUCKET =====
+  ProcessedZoneBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub 'data-lake-processed-zone-${AWS::AccountId}'
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      LifecycleConfiguration:
+        Rules:
+          - Id: TransitionToIntelligentTiering
+            Status: Enabled
+            Transitions:
+              - TransitionInDays: 90
+                StorageClass: INTELLIGENT_TIERING
+              - TransitionInDays: 365
+                StorageClass: GLACIER
+      Tags:
+        - Key: Name
+          Value: Data Lake Processed Zone
+        - Key: Environment
+          Value: !Ref Environment
+        - Key: Project
+          Value: !Ref ProjectName
+        - Key: DataClassification
+          Value: Processed
+        - Key: ManagedBy
+          Value: CloudFormation
+
+  # ===== CURATED ZONE BUCKET =====
+  CuratedZoneBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub 'data-lake-curated-zone-${AWS::AccountId}'
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      Tags:
+        - Key: Name
+          Value: Data Lake Curated Zone
+        - Key: Environment
+          Value: !Ref Environment
+        - Key: Project
+          Value: !Ref ProjectName
+        - Key: DataClassification
+          Value: Curated
+        - Key: ManagedBy
+          Value: CloudFormation
+
+  # ===== SCRIPTS BUCKET =====
+  ScriptsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub 'data-lake-scripts-${AWS::AccountId}'
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      Tags:
+        - Key: Name
+          Value: Data Lake Scripts
+        - Key: Environment
+          Value: !Ref Environment
+        - Key: Project
+          Value: !Ref ProjectName
+        - Key: Purpose
+          Value: ETL Scripts and Artifacts
+        - Key: ManagedBy
+          Value: CloudFormation
+
+  # ===== QUERY RESULTS BUCKET =====
+  QueryResultsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub 'data-lake-query-results-${AWS::AccountId}'
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      LifecycleConfiguration:
+        Rules:
+          - Id: DeleteOldQueryResults
+            Status: Enabled
+            ExpirationInDays: 30
+            NoncurrentVersionExpirationInDays: 7
+      Tags:
+        - Key: Name
+          Value: Data Lake Query Results
+        - Key: Environment
+          Value: !Ref Environment
+        - Key: Project
+          Value: !Ref ProjectName
+        - Key: Purpose
+          Value: Athena Query Results
+        - Key: ManagedBy
+          Value: CloudFormation
+
+  # ===== BUCKET POLICIES =====
+  RawZoneBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref RawZoneBucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: DenyInsecureTransport
+            Effect: Deny
+            Principal: '*'
+            Action: 's3:*'
+            Resource:
+              - !GetAtt RawZoneBucket.Arn
+              - !Sub '${RawZoneBucket.Arn}/*'
+            Condition:
+              Bool:
+                'aws:SecureTransport': false
+
+  ProcessedZoneBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref ProcessedZoneBucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: DenyInsecureTransport
+            Effect: Deny
+            Principal: '*'
+            Action: 's3:*'
+            Resource:
+              - !GetAtt ProcessedZoneBucket.Arn
+              - !Sub '${ProcessedZoneBucket.Arn}/*'
+            Condition:
+              Bool:
+                'aws:SecureTransport': false
+
+  CuratedZoneBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref CuratedZoneBucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: DenyInsecureTransport
+            Effect: Deny
+            Principal: '*'
+            Action: 's3:*'
+            Resource:
+              - !GetAtt CuratedZoneBucket.Arn
+              - !Sub '${CuratedZoneBucket.Arn}/*'
+            Condition:
+              Bool:
+                'aws:SecureTransport': false
+
+  QueryResultsBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref QueryResultsBucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: DenyInsecureTransport
+            Effect: Deny
+            Principal: '*'
+            Action: 's3:*'
+            Resource:
+              - !GetAtt QueryResultsBucket.Arn
+              - !Sub '${QueryResultsBucket.Arn}/*'
+            Condition:
+              Bool:
+                'aws:SecureTransport': false
+          - Sid: AllowAthenaAccess
+            Effect: Allow
+            Principal:
+              Service: athena.amazonaws.com
+            Action:
+              - 's3:PutObject'
+              - 's3:GetObject'
+              - 's3:ListBucket'
+            Resource:
+              - !GetAtt QueryResultsBucket.Arn
+              - !Sub '${QueryResultsBucket.Arn}/*'
+
+Outputs:
+  RawZoneBucketName:
+    Description: Raw Zone S3 Bucket Name
+    Value: !Ref RawZoneBucket
+    Export:
+      Name: !Sub '${AWS::StackName}-RawZoneBucket'
+
+  RawZoneBucketArn:
+    Description: Raw Zone S3 Bucket ARN
+    Value: !GetAtt RawZoneBucket.Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-RawZoneBucketArn'
+
+  ProcessedZoneBucketName:
+    Description: Processed Zone S3 Bucket Name
+    Value: !Ref ProcessedZoneBucket
+    Export:
+      Name: !Sub '${AWS::StackName}-ProcessedZoneBucket'
+
+  ProcessedZoneBucketArn:
+    Description: Processed Zone S3 Bucket ARN
+    Value: !GetAtt ProcessedZoneBucket.Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-ProcessedZoneBucketArn'
+
+  CuratedZoneBucketName:
+    Description: Curated Zone S3 Bucket Name
+    Value: !Ref CuratedZoneBucket
+    Export:
+      Name: !Sub '${AWS::StackName}-CuratedZoneBucket'
+
+  CuratedZoneBucketArn:
+    Description: Curated Zone S3 Bucket ARN
+    Value: !GetAtt CuratedZoneBucket.Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-CuratedZoneBucketArn'
+
+  ScriptsBucketName:
+    Description: Scripts S3 Bucket Name
+    Value: !Ref ScriptsBucket
+    Export:
+      Name: !Sub '${AWS::StackName}-ScriptsBucket'
+
+  QueryResultsBucketName:
+    Description: Query Results S3 Bucket Name
+    Value: !Ref QueryResultsBucket
+    Export:
+      Name: !Sub '${AWS::StackName}-QueryResultsBucket'
+
+  DataLakeConfiguration:
+    Description: Data Lake Configuration Summary
+    Value: !Sub |
+      Data Lake Buckets Created:
+      - Raw Zone: ${RawZoneBucket}
+      - Processed Zone: ${ProcessedZoneBucket}
+      - Curated Zone: ${CuratedZoneBucket}
+      - Scripts: ${ScriptsBucket}
+      - Query Results: ${QueryResultsBucket}

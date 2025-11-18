@@ -1,0 +1,12 @@
+[
+  {"product_id": "PROD101", "name": "Widget A", "category": "Electronics", "price": 29.99, "in_stock": true, "manufacturer": "TechCorp"},
+  {"product_id": "PROD102", "name": "Widget B", "category": "Electronics", "price": 49.99, "in_stock": true, "manufacturer": "TechCorp"},
+  {"product_id": "PROD103", "name": "Gadget X", "category": "Accessories", "price": 9.99, "in_stock": true, "manufacturer": "GadgetCo"},
+  {"product_id": "PROD104", "name": "Device Y", "category": "Electronics", "price": 19.99, "in_stock": false, "manufacturer": "DeviceCorp"},
+  {"product_id": "PROD105", "name": "Tool Z", "category": "Hardware", "price": 39.99, "in_stock": true, "manufacturer": "ToolWorks"},
+  {"product_id": "PROD106", "name": "Pro Widget", "category": "Electronics", "price": 99.99, "in_stock": true, "manufacturer": "TechCorp"},
+  {"product_id": "PROD107", "name": "Mini Gadget", "category": "Accessories", "price": 15.99, "in_stock": true, "manufacturer": "GadgetCo"},
+  {"product_id": "PROD108", "name": "Premium Device", "category": "Electronics", "price": 129.99, "in_stock": true, "manufacturer": "DeviceCorp"},
+  {"product_id": "PROD109", "name": "Advanced Tool", "category": "Hardware", "price": 79.99, "in_stock": true, "manufacturer": "ToolWorks"},
+  {"product_id": "PROD110", "name": "Ultra Widget", "category": "Electronics", "price": 199.99, "in_stock": true, "manufacturer": "TechCorp"}
+]
