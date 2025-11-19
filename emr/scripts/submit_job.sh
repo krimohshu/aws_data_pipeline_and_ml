@@ -5,7 +5,7 @@ set -e
 
 if [ -z "$1" ]; then
   echo "Usage: ./submit_job.sh <cluster-id> [job-file]"
-  echo "Example: ./submit_job.sh j-XXXXXXXXXXXXX customer_segmentation.py"
+  echo "Usage: ./submit_job.sh j-XXXXXXXXXXXXX customer_segmentation.py"
   exit 1
 fi
 

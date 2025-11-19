@@ -2,7 +2,7 @@
 
 ## 🎯 Overview
 
-This phase uses **Amazon SageMaker** to build a machine learning model that predicts **Customer Lifetime Value (CLV)** based on the customer segments created in Phase 8.
+This phase implements **Amazon SageMaker** to build a machine learning model that predicts **Customer Lifetime Value (CLV)** based on the customer segments created in Phase 8.
 
 ---
 
@@ -85,7 +85,7 @@ This phase uses **Amazon SageMaker** to build a machine learning model that pred
 
 2. **Run All Cells**: Click `Run → Run All Cells` or use `Shift+Enter` for each cell
 
-3. **Follow the Tutorial**: The notebook has detailed explanations for each step
+3. **Execute**: The notebook contains detailed explanations for each step
 
 ---
 
@@ -158,7 +158,7 @@ For each customer:
 - Personalize marketing spend per customer
 - Data-driven budget allocation
 
-### **Example Insights**:
+### **Sample Insights**:
 ```
 Customer CUST002:
 - Segment: High-Value Frequent
@@ -177,12 +177,12 @@ Customer CUST003:
 
 ---
 
-## 🎓 Key Learnings
+## 🎓 Technical Implementation
 
 ### **Machine Learning Concepts**:
-1. **Supervised Learning**: Learn from labeled data (historical CLV)
-2. **Regression**: Predict continuous values (dollar amounts)
-3. **Feature Engineering**: Transform raw data into predictive features
+1. **Supervised Learning**: Models trained from labeled data (historical CLV)
+2. **Regression**: Predicts continuous values (dollar amounts)
+3. **Feature Engineering**: Transforms raw data into meaningful ML features
 4. **Train/Test Split**: Evaluate on unseen data
 5. **Model Evaluation**: R², RMSE, MAE metrics
 6. **Feature Importance**: Understand model decisions
@@ -197,7 +197,7 @@ Customer CUST003:
 - **Managed Infrastructure**: No server setup
 - **Pre-installed Libraries**: Scikit-learn, pandas, boto3
 - **Direct S3 Access**: Seamless data integration
-- **Scalable**: Can upgrade to GPU instances for deep learning
+- **Scalable**: GPU instances available for deep learning
 
 ---
 

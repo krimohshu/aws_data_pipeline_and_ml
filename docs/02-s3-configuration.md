@@ -1,10 +1,10 @@
-# Module 2: S3 Data Lake Configuration
+# Phase 2: S3 Data Lake Configuration
 
 ## Overview
 Set up a multi-tier S3 data lake with raw, processed, and curated zones. Implement proper security, lifecycle policies, and partitioning strategies.
 
-## Learning Objectives
-- Understand data lake architecture
+## Objectives
+- Implement data lake architecture
 - Create S3 buckets with proper configuration
 - Implement lifecycle policies
 - Set up bucket notifications
@@ -41,7 +41,7 @@ S3 Data Lake Structure:
 Navigate to the infrastructure directory and create the template:
 
 ```bash
-cd ~/Documents/pers/learning/AWS_Data_Science/aws_data_pipeline
+cd ~/aws_data_pipeline
 ```
 
 The CloudFormation template is already created at `infrastructure/cloudformation/s3-buckets.yaml`

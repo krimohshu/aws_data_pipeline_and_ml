@@ -1,7 +1,7 @@
 """
 EMR Spark Job: Customer Segmentation using K-Means Clustering
 --------------------------------------------------------------
-This job demonstrates advanced Spark ML capabilities on EMR:
+This job implements advanced Spark ML capabilities on EMR:
 - Feature engineering from multiple data sources
 - ML clustering (K-Means)
 - Distributed processing across cluster nodes

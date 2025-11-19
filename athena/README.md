@@ -20,7 +20,7 @@
   - Metadata: processing_timestamp, processing_date, transaction_date
   - Partitioned by: year, month, day
 
-## Query Examples
+## Query Reference
 
 ### Basic Queries
 ```sql
@@ -76,7 +76,7 @@ low       | 5            | $201.87       | $40.37
 
 ### Cost Calculation
 - **Pricing**: $5 per TB of data scanned
-- **Example**: Scanning 7 KB Parquet file = $0.000000035 (~$0.00)
+- **Reference**: Scanning 7 KB Parquet file = $0.000000035 (~$0.00)
 - **Monthly estimate**: 1000 queries × 7 KB avg = $0.04/month
 
 ### Optimization Tips

@@ -7,7 +7,7 @@ Amazon EMR (Elastic MapReduce) provides managed Hadoop/Spark clusters for large-
 
 ### 1. **Complex Feature Engineering for ML**
 ```python
-# Example: Advanced feature engineering with Spark MLlib
+# Advanced feature engineering with Spark MLlib
 from pyspark.ml.feature import VectorAssembler, StandardScaler
 from pyspark.ml.stat import Correlation
 
@@ -348,4 +348,4 @@ In Phase 8, we'll:
 4. Query results with Athena
 5. Shut down cluster to save costs
 
-**Cost for this tutorial:** ~$1-2 (30 minutes of EMR runtime)
+**Estimated Cost:** ~$1-2 (30 minutes of EMR runtime)

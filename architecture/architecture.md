@@ -464,7 +464,7 @@ SageMaker Notebook
 
 ## Next Steps
 
-Proceed to implementation tutorials:
+Proceed to implementation guides:
 1. [Setup & Prerequisites](../docs/01-setup.md)
 2. [S3 Configuration](../docs/02-s3-configuration.md)
 3. Continue with remaining modules...

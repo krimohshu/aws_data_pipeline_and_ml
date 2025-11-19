@@ -1,9 +1,9 @@
-# Module 3: Lambda Data Ingestion
+# Phase 3: Lambda Data Ingestion
 
 ## Overview
-Create serverless Lambda functions to ingest data from various sources into your S3 data lake. Learn to handle different data formats, implement error handling, and trigger functions with EventBridge.
+Implement serverless Lambda functions to ingest data from various sources into your S3 data lake with support for multiple data formats, comprehensive error handling, and EventBridge triggers.
 
-## Learning Objectives
+## Objectives
 - Create Lambda functions for data ingestion
 - Handle multiple data formats (JSON, CSV, API responses)
 - Implement error handling and logging

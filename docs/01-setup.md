@@ -1,9 +1,9 @@
-# Module 1: Setup & Prerequisites
+# Phase 1: Setup & Prerequisites
 
 ## Overview
-This module covers the initial setup required to build the AWS data pipeline. We'll configure AWS CLI, set up IAM permissions, and prepare your development environment.
+This phase covers the initial setup required to build the AWS data pipeline. Configure AWS CLI, set up IAM permissions, and prepare your development environment.
 
-## Learning Objectives
+## Objectives
 - Configure AWS CLI and credentials
 - Understand IAM roles and permissions
 - Set up Python environment
@@ -96,7 +96,7 @@ python3 --version
 
 ### 4.2 Create Virtual Environment
 ```bash
-cd ~/Documents/pers/learning/AWS_Data_Science/aws_data_pipeline
+cd ~/aws_data_pipeline
 
 # Create virtual environment
 python3 -m venv venv

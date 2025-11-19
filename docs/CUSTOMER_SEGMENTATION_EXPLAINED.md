@@ -86,7 +86,7 @@ Our pipeline segmented 12 customers into 4 distinct groups using K-Means cluster
 ✓ "Complete your collection" cross-sell emails
 ✓ 10% off second purchase coupon
 ✓ Product recommendations based on first buy
-✓ Educational content about products
+✓ Informational content about products
 ✗ Don't treat them like bargain hunters
 ```
 
@@ -238,7 +238,7 @@ This segmentation enables **Predictive Modeling**:
 
 ## 💡 Real-World Applications
 
-### **E-commerce Example:**
+### **E-commerce Implementation:**
 ```
 Amazon uses similar segmentation to:
 - Show different homepage layouts per segment
@@ -247,7 +247,7 @@ Amazon uses similar segmentation to:
 - Set customer service priority levels
 ```
 
-### **Subscription Business Example:**
+### **Subscription Business Implementation:**
 ```
 Netflix segments to:
 - Recommend different content per segment
@@ -277,7 +277,7 @@ Netflix segments to:
 
 ---
 
-## 📚 Further Learning
+## 📚 Additional Resources
 
 **Books:**
 - "Database Marketing" by Robert Shaw

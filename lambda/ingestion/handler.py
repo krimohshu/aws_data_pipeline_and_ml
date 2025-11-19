@@ -20,7 +20,7 @@ RAW_BUCKET = os.environ.get('RAW_BUCKET')
 SOURCE_NAME = os.environ.get('SOURCE_NAME', 'sales')
 
 def generate_sample_sales_data(num_records=10):
-    """Generate sample sales data for demonstration"""
+    """Generate sample sales data for ingestion"""
     products = ['PROD101', 'PROD102', 'PROD103', 'PROD104', 'PROD105']
     customers = ['CUST001', 'CUST002', 'CUST003', 'CUST004', 'CUST005']
     regions = ['US-EAST', 'US-WEST', 'EU-WEST', 'AP-SOUTH']
